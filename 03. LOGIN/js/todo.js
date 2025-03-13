@@ -67,7 +67,6 @@ function sayHello(item){
 
 const savedToDos = localStorage.getItem(TODOS_KEY);
 
-console.log(savedToDos);
 
 if(savedToDos !== null){
 
@@ -79,8 +78,16 @@ if(savedToDos !== null){
     parsedToDos.forEach((item) => console.log("This is the turn of "+ item ));
     //parsedToDos.forEach(sayHello);
 
+    
     toDos = parsedToDos;
 
     //이전에 저장해뒀던 배열을 불러와 출력함.
     parsedToDos.forEach(paintToDo);
 }
+
+function sexyFilter(){
+
+
+}
+
+[1,2,3,4].filter(sexyFilter)
