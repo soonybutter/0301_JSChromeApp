@@ -11,23 +11,33 @@ const TODOS_KEY ="todos";
 //toDos 배열을 localStorage에 저장하는 함수
 function saveToDos(){
 
-    //문자열로 저장함 (localStorage에 array로 저장이 안되기 때문!)
-    localStorage.setItem("todos",JSON.stringify(toDos));
+    //localStorage에 문자열로 저장함 (localStorage에 array로 저장이 안되기 때문!)
+    localStorage.setItem(TODOS_KEY,JSON.stringify(toDos));
 
 }
 
-
+//toDos 삭제 함수
 function deleteToDo(event) {
+  //1. 부모 li태그 가져옴
   const li = event.target.parentElement;
+
+  //2. 기존 리스트는 localStorag에서 삭제됨
   li.remove();
+
+  //3. filter function 통해 새로운 toDos 배열로 변환
+  toDos = toDos.filter((toDo) => toDo.id !== parseInt(li.id));
+
+  //4. 변한값을 다시 저장시킴(덮어씌움)
+  saveToDos();
 }
 
 function paintToDo(newTodo) {
   const li = document.createElement("li");
+  li.id = newTodo.id;
   const span = document.createElement("span");
   span.innerText = newTodo.text; // text로 해줘야 object로 localStorage형식에 저장된 것들이 화면 상으로 나옴.
   const button = document.createElement("button");
-  button.innerText = "❌";
+  button.innerText = "🆗";
 
   //클릭 시 삭제
   button.addEventListener("click", deleteToDo); 
@@ -57,16 +67,7 @@ function handleToDoSubmit(event) {
 
 toDoForm.addEventListener("submit", handleToDoSubmit);
 
-/*
-function sayHello(item){
-
-    console.log("This is the turn of "+ item);
-
-}
-*/
-
 const savedToDos = localStorage.getItem(TODOS_KEY);
-
 
 if(savedToDos !== null){
 
@@ -84,10 +85,3 @@ if(savedToDos !== null){
     //이전에 저장해뒀던 배열을 불러와 출력함.
     parsedToDos.forEach(paintToDo);
 }
-
-function sexyFilter(){
-
-
-}
-
-[1,2,3,4].filter(sexyFilter)
